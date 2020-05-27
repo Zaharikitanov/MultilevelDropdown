@@ -1,36 +1,87 @@
-﻿<h3>MultilevelDropdown</h3>
-<BSDropdown>
-    <BSDropdownToggle Color="Color.Primary">Level 1</BSDropdownToggle>
-    <BSDropdownMenu>
-        <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
-        <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
-        <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
-        <BSDropdown>
-            <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 2</BSDropdownToggle>
-            <BSDropdownMenu>
-                <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
-                <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
-                <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
-                <BSDropdown>
-                    <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 3</BSDropdownToggle>
-                    <BSDropdownMenu>
-                        <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
-                        <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
-                        <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
-                        <BSDropdown>
-                            <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 4</BSDropdownToggle>
-                            <BSDropdownMenu>
-                                <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
-                                <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
-                                <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
-                            </BSDropdownMenu>
-                        </BSDropdown>
-                    </BSDropdownMenu>
-                </BSDropdown>
-            </BSDropdownMenu>
-        </BSDropdown>
-    </BSDropdownMenu>
-</BSDropdown>
-@code {
+﻿@inherits MultilevelDropdownMenu.Models.MenuItemList
 
+<h3>MultilevelDropdown</h3>
+
+@foreach (var item in MenuItems)
+{
+    <p>@item.Label</p>
+}
+
+@*@foreach (var item in ItemLabels)
+    {
+        <p>@item</p>
+    }*@
+
+<ul level="0">
+    @foreach (var item in MenuItems)
+    {
+        <MenuItemComponent Item=@item Level=1 @key=item />
+    }
+</ul>
+
+<ul class="nav">
+    @foreach (var item in MenuItems)
+    {
+        @if (item.Children != null && item.Children.Any())
+        {
+            <li class="nav-item">
+                <BSDropdown>
+                    <BSDropdownToggle Color="Color.None">@item.Label</BSDropdownToggle>
+                    <MenuItemComponent Item=@item Level=1 @key=item />
+                </BSDropdown>
+            </li>
+        } else
+        {
+            <li class="nav-item">
+                <a class="btn" href="#">@item.Label</a>
+            </li>
+        }
+    }
+</ul>
+
+
+    <BSDropdown Class="mt-4">
+        <BSDropdownToggle Color="Color.Primary">Level 1</BSDropdownToggle>
+        <BSDropdownMenu>
+            <BSDropdownItem Href="javascript:void(0);" @onclick='(() => ShowSelectedMenuItem("Action"))'>Action</BSDropdownItem>
+            <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
+            <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
+            <BSDropdown>
+                <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 2</BSDropdownToggle>
+                <BSDropdownMenu>
+                    <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
+                    <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
+                    <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
+                    <BSDropdown>
+                        <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 3</BSDropdownToggle>
+                        <BSDropdownMenu>
+                            <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
+                            <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
+                            <BSDropdownItem Href="javascript:void(0);">Yet Another Action</BSDropdownItem>
+                            <BSDropdown>
+                                <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 4</BSDropdownToggle>
+                                <BSDropdownMenu>
+                                    <BSDropdownItem Href="javascript:void(0);">Action</BSDropdownItem>
+                                    <BSDropdownItem Href="javascript:void(0);">Another Action</BSDropdownItem>
+                                    <BSDropdownItem Href="javascript:void(0);" @onclick='(() => ShowSelectedMenuItem("Yet Another Action"))'>Yet Another Action</BSDropdownItem>
+                                </BSDropdownMenu>
+                            </BSDropdown>
+                        </BSDropdownMenu>
+                    </BSDropdown>
+                </BSDropdownMenu>
+            </BSDropdown>
+        </BSDropdownMenu>
+    </BSDropdown>
+
+    <p class="mt-4">Selected Item: @selectedMenuItem</p>
+    @code {
+        //BlazorStrap.BSDropdownMenu bSDropdownMenu;
+
+    private string selectedMenuItem = "";
+
+    private void ShowSelectedMenuItem(string selectedItem)
+    {
+        //bSDropdownMenu.Toggle();
+        selectedMenuItem = selectedItem;
+    }
 }

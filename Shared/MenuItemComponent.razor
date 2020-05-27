@@ -1,0 +1,20 @@
+﻿<BSDropdownMenu>
+
+    <BSDropdownItem Href="javascript:void(0);">@Item.Label</BSDropdownItem>
+
+    @if (Item.Children != null && Item.Children.Any())
+    {
+        <BSDropdown>
+            <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 2</BSDropdownToggle>
+            @foreach (var child in Item.Children)
+            {
+                <MenuItemComponent Item=@child Level="@(Level + 1)" @key=child />
+            }
+        </BSDropdown>
+        }
+</BSDropdownMenu>
+
+@code {
+    [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
+    [Parameter] public int Level { get; set; }
+}
