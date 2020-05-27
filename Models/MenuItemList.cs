@@ -8,8 +8,6 @@ namespace MultilevelDropdownMenu.Models
     {
         public List<MenuItem> MenuItems { get; set; }
 
-        public List<string> ItemLabels = new List<string>();
-
         protected override Task OnInitializedAsync()
         {
             PopulateMenuItems();
@@ -27,7 +25,7 @@ namespace MultilevelDropdownMenu.Models
                     {
                         new MenuItem { Label = "1.1"},
                         new MenuItem {
-                            Label = "1.2",
+                            Label = "1.2 subitem",
                             Children = new List<MenuItem>{
                                 new MenuItem { Label = "1.2.1"},
                                 new MenuItem { Label = "1.2.2"},
@@ -52,25 +50,6 @@ namespace MultilevelDropdownMenu.Models
             };
 
             MenuItems =  firstItem;
-            foreach (var item in firstItem)
-            {
-                //ItemLabels.Add(item.Label);
-                IterateMenuItems(item);
-            }
-        }
-
-        private void IterateMenuItems(MenuItem node)
-        {
-            if (node == null)
-                return;
-
-            ItemLabels.Add(node.Label);
-
-            if (node.Children == null)
-                return;
-
-            foreach (var child in node.Children)
-                IterateMenuItems(child);
         }
     }
 }

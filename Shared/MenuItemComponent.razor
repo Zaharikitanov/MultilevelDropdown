@@ -1,20 +1,37 @@
-﻿<BSDropdownMenu>
-
-    <BSDropdownItem Href="javascript:void(0);">@Item.Label</BSDropdownItem>
-
-    @if (Item.Children != null && Item.Children.Any())
-    {
-        <BSDropdown>
-            <BSDropdownToggle IsLink="true" Color="Color.Secondary">Level 2</BSDropdownToggle>
-            @foreach (var child in Item.Children)
-            {
-                <MenuItemComponent Item=@child Level="@(Level + 1)" @key=child />
-            }
-        </BSDropdown>
+﻿@if (Item.Children != null && Item.Children.Any())
+{
+    <BSDropdownToggle @onmouseover="@ShowMenu" Color="Color.None">@Item.Label</BSDropdownToggle>
+    <BSDropdownMenu IsOpen="@IsOpen" @onmouseleave="@HideMenu">
+        @foreach (var child in Item.Children)
+        {
+            <BSDropdown>
+                <MenuItemComponent Item=@child @key=child />
+            </BSDropdown>
         }
-</BSDropdownMenu>
-
+    </BSDropdownMenu>
+}
+else
+{
+    <BSDropdownItem @onclick='(() => SelectItem(Item.Label))' Href="javascript:void(0);">@Item.Label</BSDropdownItem>
+}
 @code {
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
-    [Parameter] public int Level { get; set; }
+    private bool IsOpen;
+    private string selectedItem = "";
+
+    private void HideMenu()
+    {
+        IsOpen = false;
+        Console.WriteLine(IsOpen);
+    }
+
+    private void ShowMenu()
+    {
+        IsOpen = true;
+    }
+
+    private void SelectItem(string selectedItem)
+    {
+        Console.WriteLine(selectedItem);
+    }
 }
