@@ -15,9 +15,15 @@
 @code {
     //BlazorStrap.BSDropdownMenu bSDropdownMenu;
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem MenuItem { get; set; }
-
+    private List<string> MenuItemsList = new List<string>();
     private string selectedMenuItem = "";
-    
+    private bool IsOpen;
+
+    protected override void OnInitialized()
+    {
+        
+        base.OnInitialized();
+    }
 
     private void ShowSelectedMenuItem(string selectedItem)
     {
@@ -25,5 +31,27 @@
         selectedMenuItem = selectedItem;
     }
 
-    
+    private void PopulateMenuItemsList(MultilevelDropdownMenu.Models.MenuItem node)
+    {
+        if (node == null)
+            return;
+
+        MenuItemsList.Add(node.Label);
+
+        if (node.Children == null)
+            return;
+
+        foreach (var child in node.Children)
+            PopulateMenuItemsList(node);
+        //if (node.Children != null && node.Children.Any())
+        //{
+        //    foreach (var child in node.Children)
+        //        PopulateMenuItemsList(node);
+        //} else
+        //{
+        //    MenuItemsList.Add(node.Label);
+        //}
+    }
+
+
 }

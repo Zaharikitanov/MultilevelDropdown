@@ -1,7 +1,7 @@
 ﻿@if (Item.Children != null && Item.Children.Any())
 {
-    <BSDropdownToggle @onmouseover="@ShowMenu" Color="Color.None">@Item.Label</BSDropdownToggle>
-    <BSDropdownMenu IsOpen="@IsOpen" @onmouseleave="@HideMenu">
+    <BSDropdownToggle @onmouseover=@this.DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
+    <BSDropdownMenu IsOpen="@IsOpen" @onmouseover=@this.ShowMenu @onmouseout="@this.HideMenu" >
         @foreach (var child in Item.Children)
         {
             <BSDropdown>
@@ -12,26 +12,58 @@
 }
 else
 {
-    <BSDropdownItem @onclick='(() => SelectItem(Item.Label))' Href="javascript:void(0);">@Item.Label</BSDropdownItem>
+    <BSDropdownItem @onclick='(() => SelectItem(Item.Label))' Href="javascript:void(0);">@Item.Label <span>@selectedItem</span></BSDropdownItem>
 }
 @code {
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
+
     private bool IsOpen;
+
     private string selectedItem = "";
 
-    private void HideMenu()
+    EventCallback<bool> OnDetailsSelected { get; set; }
+
+    void HandleOnDetailsSelected()
     {
-        IsOpen = false;
-        Console.WriteLine(IsOpen);
+        OnDetailsSelected.InvokeAsync(this.IsOpen = false);
+        Console.WriteLine(this.IsOpen);
     }
 
-    private void ShowMenu()
+    protected override void OnInitialized()
     {
-        IsOpen = true;
+        Console.WriteLine(IsOpen);
+        base.OnInitialized();
+    }
+
+    void HideMenu()
+    {
+        this.IsOpen = false;
+        Console.WriteLine("hide menu!");
+    }
+
+    void DisplayMenu()
+    {
+        this.IsOpen = true;
+        Console.WriteLine("display menu");
+    }
+
+    void ShowMenu()
+    {
+        this.IsOpen = true;
+        Console.WriteLine("show menu");
     }
 
     private void SelectItem(string selectedItem)
     {
+        Console.WriteLine(this.IsOpen);
         Console.WriteLine(selectedItem);
     }
+
+    void Deselect()
+    {
+        IsOpen = false;
+        this.selectedItem = "";
+    }
+
+
 }
