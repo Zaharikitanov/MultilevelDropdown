@@ -16,7 +16,7 @@ namespace MultilevelDropdownMenu.Models
 
         private void PopulateMenuItems()
         {
-            List<MenuItem> firstItem = new List<MenuItem>
+            MenuItems = new List<MenuItem>
             {
                 new MenuItem
                 {
@@ -48,8 +48,6 @@ namespace MultilevelDropdownMenu.Models
                     Label = "item 3"
                 }
             };
-
-            MenuItems =  firstItem;
         }
     }
 }

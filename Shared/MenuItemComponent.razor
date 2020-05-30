@@ -1,7 +1,7 @@
 ﻿@if (Item.Children != null && Item.Children.Any())
 {
-    <BSDropdownToggle @onmouseover=@this.DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
-    <BSDropdownMenu IsOpen="@IsOpen" @onmouseover=@this.ShowMenu @onmouseout="@this.HideMenu" >
+    <BSDropdownToggle @onmouseover=@DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
+    <BSDropdownMenu IsOpen="@IsOpen" @onmouseover=@DisplayMenu @onmouseout="@HideMenu" >
         @foreach (var child in Item.Children)
         {
             <BSDropdown>
@@ -12,7 +12,7 @@
 }
 else
 {
-    <BSDropdownItem @onclick='(() => SelectItem(Item.Label))' Href="javascript:void(0);">@Item.Label <span>@selectedItem</span></BSDropdownItem>
+    <BSDropdownItem @onclick='(() => SelectItem(Item))' Href="javascript:void(0);">@Item.Label <span>@selectedItem</span></BSDropdownItem>
 }
 @code {
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
@@ -21,49 +21,18 @@ else
 
     private string selectedItem = "";
 
-    EventCallback<bool> OnDetailsSelected { get; set; }
-
-    void HandleOnDetailsSelected()
-    {
-        OnDetailsSelected.InvokeAsync(this.IsOpen = false);
-        Console.WriteLine(this.IsOpen);
-    }
-
-    protected override void OnInitialized()
-    {
-        Console.WriteLine(IsOpen);
-        base.OnInitialized();
-    }
-
     void HideMenu()
     {
-        this.IsOpen = false;
-        Console.WriteLine("hide menu!");
+        IsOpen = false;
     }
 
     void DisplayMenu()
     {
-        this.IsOpen = true;
-        Console.WriteLine("display menu");
+        IsOpen = true;
     }
 
-    void ShowMenu()
+    void SelectItem(MultilevelDropdownMenu.Models.MenuItem selectedItem)
     {
-        this.IsOpen = true;
-        Console.WriteLine("show menu");
+        Console.WriteLine(selectedItem.Label);
     }
-
-    private void SelectItem(string selectedItem)
-    {
-        Console.WriteLine(this.IsOpen);
-        Console.WriteLine(selectedItem);
-    }
-
-    void Deselect()
-    {
-        IsOpen = false;
-        this.selectedItem = "";
-    }
-
-
 }
