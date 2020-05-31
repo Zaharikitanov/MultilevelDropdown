@@ -1,7 +1,10 @@
-﻿@if (Item.Children != null && Item.Children.Any())
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime;
+
+@if (Item.Children != null && Item.Children.Any())
 {
-    <BSDropdownToggle @onmouseover=@DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
-    <BSDropdownMenu IsOpen="@IsOpen" @onmouseover=@DisplayMenu @onmouseout="@HideMenu" >
+    <BSDropdownToggle @onmouseover=DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
+    <BSDropdownMenu IsOpen="IsOpen" @onmouseover=DisplayMenu @onmouseout="HideMenu" >
         @foreach (var child in Item.Children)
         {
             <BSDropdown>
@@ -12,14 +15,12 @@
 }
 else
 {
-    <BSDropdownItem @onclick='(() => SelectItem(Item))' Href="javascript:void(0);">@Item.Label <span>@selectedItem</span></BSDropdownItem>
+    <BSDropdownItem @onclick='((e) => SelectItem(Item))' Href="javascript:void(0);">@Item.Label</BSDropdownItem>
 }
 @code {
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
 
     private bool IsOpen;
-
-    private string selectedItem = "";
 
     void HideMenu()
     {

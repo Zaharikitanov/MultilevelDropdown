@@ -1,7 +1,7 @@
 ﻿@if (MenuItem.Children != null && MenuItem.Children.Any())
 {
 <li class="nav-item">
-    <BSDropdown Class="FIRST-ROW-MENUITEM" @onclick="@ShowMenuItems">
+    <BSDropdown Class="FIRST-ROW-MENUITEM">
         <MenuItemComponent Item=@MenuItem @key=MenuItem />
     </BSDropdown>
 </li>
@@ -11,12 +11,12 @@
         <a class="btn" href="#">@MenuItem.Label</a>
     </li>
 }
+<li>test</li>
 
 @code {
     //BlazorStrap.BSDropdownMenu bSDropdownMenu;
     [Parameter] public MultilevelDropdownMenu.Models.MenuItem MenuItem { get; set; }
     private List<string> MenuItemsList = new List<string>();
-    private string selectedMenuItem = "";
     private bool IsOpen;
 
     protected override void OnInitialized()
@@ -26,12 +26,6 @@
         //PopulateItemsList(MenuItem);
 
         base.OnInitialized();
-    }
-
-    private void ShowSelectedMenuItem(string selectedItem)
-    {
-        //bSDropdownMenu.Toggle();
-        selectedMenuItem = selectedItem;
     }
 
     void PopulateMenuItemsList(MultilevelDropdownMenu.Models.MenuItem node)
@@ -53,17 +47,18 @@
             {
                 Console.WriteLine(child.Label);
                 MenuItemsList.Add(child.Label);
-                if (child.Children != null && child.Children.Any())
-                {
-                    foreach (var innerChild in child.Children)
-                    {
-                        Console.WriteLine(innerChild.Label);
-                        MenuItemsList.Add(innerChild.Label);
-                    }
+                PopulateMenuItemsList(child);
+                //if (child.Children != null && child.Children.Any())
+                //{
+                //    foreach (var innerChild in child.Children)
+                //    {
+                //        Console.WriteLine(innerChild.Label);
+                //        MenuItemsList.Add(innerChild.Label);
+                //    }
+                //}
+
+
                 }
-
-
-            }
             //PopulateMenuItemsList(node);
         }
         else
@@ -86,11 +81,6 @@
 
         foreach (var child in node.Children)
             PopulateItemsList(node);
-    }
-
-    void ShowMenuItems()
-    {
-        Console.WriteLine(MenuItemsList);
     }
 }
 
