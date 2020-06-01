@@ -3,6 +3,9 @@
 Dropdown menu with sub menus.
 
 ### Functional Specifications
+
+![Alt text](https://github.com/Zaharikitanov/MultilevelDropdown/blob/master/example-design.PNG)
+
 - The menu have top-level (root) and child items. In the above screenshot "Item 1" is a
 top-level (root) menu item, "Item 1.2" is a child item (submenu item) of "Item 1" and "Item
 1.2.1" is a child item of the "Item 1.2" child item ("Item 1.2" is a child of "Item 1" and a parent of
