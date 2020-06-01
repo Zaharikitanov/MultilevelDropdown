@@ -1,88 +1,20 @@
 ﻿@if (MenuItem.Children != null && MenuItem.Children.Any())
 {
-<li class="nav-item">
-    <BSDropdown Class="FIRST-ROW-MENUITEM">
-        <MenuItemComponent Item=@MenuItem @key=MenuItem />
-    </BSDropdown>
-</li>
-} else
+    <li class="nav-item">
+        <BSDropdown>
+            <MenuItemComponent Item=@MenuItem @key=MenuItem />
+        </BSDropdown>
+    </li>
+}
+else
 {
     <li class="nav-item">
         <a class="btn" href="#">@MenuItem.Label</a>
     </li>
 }
-<li>test</li>
+
 
 @code {
-    //BlazorStrap.BSDropdownMenu bSDropdownMenu;
-    [Parameter] public MultilevelDropdownMenu.Models.MenuItem MenuItem { get; set; }
-    private List<string> MenuItemsList = new List<string>();
-    private bool IsOpen;
-
-    protected override void OnInitialized()
-    {
-        //Console.WriteLine(this.MenuItem.Children.FirstOrDefault().Label);
-        //PopulateMenuItemsList(this.MenuItem);
-        //PopulateItemsList(MenuItem);
-
-        base.OnInitialized();
-    }
-
-    void PopulateMenuItemsList(MultilevelDropdownMenu.Models.MenuItem node)
-    {
-        //if (node == null)
-        //    return;
-        //Console.WriteLine(node.Label);
-        //MenuItemsList.Add(node.Label);
-
-        //if (node.Children == null)
-        //    return;
-
-        //foreach (var child in node.Children)
-        //    PopulateMenuItemsList(node);
-        if (node.Children != null && node.Children.Any())
-        {
-            Console.WriteLine("There is a child");
-            foreach (var child in node.Children)
-            {
-                Console.WriteLine(child.Label);
-                MenuItemsList.Add(child.Label);
-                PopulateMenuItemsList(child);
-                //if (child.Children != null && child.Children.Any())
-                //{
-                //    foreach (var innerChild in child.Children)
-                //    {
-                //        Console.WriteLine(innerChild.Label);
-                //        MenuItemsList.Add(innerChild.Label);
-                //    }
-                //}
-
-
-                }
-            //PopulateMenuItemsList(node);
-        }
-        else
-        {
-            //this.MenuItemsList.Add(node.Label);
-            MenuItemsList.Add(node.Label);
-            Console.WriteLine("No Children");
-        }
-    }
-
-    void PopulateItemsList(MultilevelDropdownMenu.Models.MenuItem node)
-    {
-        if (node == null)
-            return;
-        Console.WriteLine(node.Label);
-        MenuItemsList.Add(node.Label);
-
-        if (node.Children == null)
-            return;
-
-        foreach (var child in node.Children)
-            PopulateItemsList(node);
-    }
+    [Parameter]
+    public MultilevelDropdownMenu.Models.MenuItem MenuItem { get; set; }
 }
-
-
-

@@ -2,6 +2,7 @@
 @inherits MultilevelDropdownMenu.Models.MenuItemList
 
 <h3>MultilevelDropdown</h3>
+
 <ul class="nav">
     @foreach (var item in MenuItems)
     {
@@ -9,6 +10,8 @@
     }
 </ul>
 
-@code {
+<p>This is the selected item state: <span>@State.SelectedMenuLabel</span></p>
 
+@code {
+    [CascadingParameter] SelectedMenuItemStateProvider State { get; set; }
 }

@@ -1,10 +1,10 @@
 ﻿@using Microsoft.JSInterop
-@inject IJSRuntime JSRuntime;
+@inject IJSRuntime jsRuntime
 
 @if (Item.Children != null && Item.Children.Any())
 {
-    <BSDropdownToggle @onmouseover=DisplayMenu Color="Color.None">@Item.Label</BSDropdownToggle>
-    <BSDropdownMenu IsOpen="IsOpen" @onmouseover=DisplayMenu @onmouseout="HideMenu" >
+    <BSDropdownToggle @onmouseover='DisplayMenu' Color="Color.None">@Item.Label</BSDropdownToggle>
+    <BSDropdownMenu IsOpen="IsOpen" @onmouseover='DisplayMenu' @onmouseout="HideMenu">
         @foreach (var child in Item.Children)
         {
             <BSDropdown>
@@ -15,10 +15,14 @@
 }
 else
 {
-    <BSDropdownItem @onclick='((e) => SelectItem(Item))' Href="javascript:void(0);">@Item.Label</BSDropdownItem>
+    <BSDropdownItem @onclick='@(() => SelectItem(Item.Label))'>@Item.Label</BSDropdownItem>
 }
 @code {
-    [Parameter] public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
+    [Parameter] 
+    public MultilevelDropdownMenu.Models.MenuItem Item { get; set; }
+
+    [CascadingParameter] 
+    SelectedMenuItemStateProvider State { get; set; }
 
     private bool IsOpen;
 
@@ -32,8 +36,8 @@ else
         IsOpen = true;
     }
 
-    void SelectItem(MultilevelDropdownMenu.Models.MenuItem selectedItem)
+    void SelectItem(string selectedItem)
     {
-        Console.WriteLine(selectedItem.Label);
+        State.SelectedMenuLabel = selectedItem;
     }
 }
